@@ -1,4 +1,4 @@
 jtype: AudioLoader
 metas:
   py_modules:
-    - executor/audio_loader.py
+    - audio_loader.py

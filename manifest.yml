@@ -1,5 +1,5 @@
 manifest_version: 1
 name: AudioLoader
 description: AudioLoader loads audio file into the Document buffer.
-url: https://github.com/jina-ai/executors
+url: https://github.com/jina-ai/executor-audio-loader
 keywords: audio loader reader mp3 wav
