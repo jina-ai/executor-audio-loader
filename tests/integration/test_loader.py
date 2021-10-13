@@ -4,7 +4,7 @@ __license__ = "Apache-2.0"
 import subprocess
 
 import pytest
-from executor.audio_loader import AudioLoader
+from audio_loader import AudioLoader
 from jina import Document, DocumentArray, Flow
 
 
