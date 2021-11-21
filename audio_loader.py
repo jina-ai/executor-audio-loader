@@ -11,7 +11,7 @@ class AudioLoader(Executor):
         self,
         audio_types: Iterable[str] = None,
         target_sample_rate: int = 22050,
-        traversal_paths: Iterable[str] = None,
+        traversal_paths: str = None,
         **kwargs,
     ):
         """
@@ -31,7 +31,7 @@ class AudioLoader(Executor):
             'wav': ['audio/x-wav', 'audio/wav'],
         }
         self.target_sample_rate = target_sample_rate
-        self.traversal_paths = traversal_paths or ['r']
+        self.traversal_paths = traversal_paths or 'r'
         for audio_type in self.audio_types:
             if audio_type not in ['mp3', 'wav']:
                 raise ValueError(f'Audio Type "{audio_type}" not supported!')
