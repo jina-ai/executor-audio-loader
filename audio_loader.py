@@ -3,6 +3,7 @@ from typing import Dict, Iterable
 import librosa
 from jina import DocumentArray, Executor, requests
 
+import warnings
 
 class AudioLoader(Executor):
     """AudioLoader loads audio file into the Document buffer."""
@@ -11,7 +12,8 @@ class AudioLoader(Executor):
         self,
         audio_types: Iterable[str] = None,
         target_sample_rate: int = 22050,
-        traversal_paths: str = None,
+        access_paths: str = None,
+        traversal_paths: Optional[str] = None,
         **kwargs,
     ):
         """
@@ -31,15 +33,22 @@ class AudioLoader(Executor):
             'wav': ['audio/x-wav', 'audio/wav'],
         }
         self.target_sample_rate = target_sample_rate
-        self.traversal_paths = traversal_paths or 'r'
+        if traversal_paths is not None:
+            warnings.warn("'traversal_paths' will be deprecated in the future, please use 'access_paths'.",
+                          DeprecationWarning,
+                          stacklevel=2)
+            access_paths = traversal_paths
+        else:
+            pass
+        self.access_paths = access_paths or 'r'
         for audio_type in self.audio_types:
             if audio_type not in ['mp3', 'wav']:
                 raise ValueError(f'Audio Type "{audio_type}" not supported!')
 
     @requests
     def load_audio(self, docs: DocumentArray, parameters: Dict, **kwargs):
-        traversal_paths = parameters.get('traversal_paths', self.traversal_paths)
-        flat_docs = docs.traverse_flat(traversal_paths)
+        access_paths = parameters.get('access_paths', self.access_paths)
+        flat_docs = docs.traverse_flat(access_paths)
 
         for audio_type in self.audio_types:
             type_docs = DocumentArray(
